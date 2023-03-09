@@ -1,48 +1,27 @@
 import React, {useState} from 'react';
 import './App.css';
-import {NewComponent} from './NewComponent';
-
-export type BanknoteType = 'all' | 'ruble' | 'dollar'
-
-export type MoneyType = {
-    banknote: string,
-    nominal: number,
-    number: string
-}
+import FullInput from './components/FullInput';
 
 
 function App() {
-    const [money, setMoney] = useState([
-        {banknote: 'dollar', nominal: 100, number: ' a1234567890'},
-        {banknote: 'dollar', nominal: 50, number: ' z1234567890'},
-        {banknote: 'ruble', nominal: 100, number: ' w1234567890'},
-        {banknote: 'dollar', nominal: 100, number: ' e1234567890'},
-        {banknote: 'dollar', nominal: 50, number: ' c1234567890'},
-        {banknote: 'ruble', nominal: 100, number: ' r1234567890'},
-        {banknote: 'dollar', nominal: 50, number: ' x1234567890'},
-        {banknote: 'ruble', nominal: 50, number: ' v1234567890'},
+    let [message, setMessage] = useState([
+        {messageTitle: 'message1'},
+        {messageTitle: 'message2'},
+        {messageTitle: 'message3'}
     ])
 
-    const [filter, setFilter] = useState<BanknoteType>('all');
-
-    let currentMoney = money;
-    if (filter === 'ruble') {
-        currentMoney = money.filter((filteredMoney) => filteredMoney.banknote === 'ruble');
-    }
-    if (filter === 'dollar') {
-        currentMoney = money.filter((filteredMoney) => filteredMoney.banknote === 'dollar');
-    }
-
-
-    const onClickFilterHandler = (nameButton: BanknoteType) => {
-        setFilter(nameButton);
+    const addMessage = (newTitleMessage: string) => {
+        let newMessage = {messageTitle: newTitleMessage};
+        message = [newMessage, ...message];
+        setMessage(message);
     }
 
     return (
-            <NewComponent
-                onClickFilterHandler={onClickFilterHandler}
-                currentMoney={currentMoney}
-            />
+        <div className={'App'}>
+            <FullInput addMessage={addMessage}/>
+            {message.map((m, index) =>
+                <div key={index}>{m.messageTitle}</div>)}
+        </div>
     )
 
 }
